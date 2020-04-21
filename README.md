@@ -1,6 +1,21 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
-   
+
+## Reflection
+In this project, code for simulating a self driving car was written. The car is supposed to drive for a minimum of about 5 miles while meeting the goals as detailed in the goals section below.
+To meet the goals, the following were implemented in code:
+### Prediction: 
+This involves the prediction of the future s-location of a car. In this part, the algorithm considers every car from sensor fusion data provided. The data provides information of the current location of the car along with their velocity along the x-axis and y-axis. The x and y velocity is used to compute the resultant velocity of the car and by multiplying the resultant velocity with time, the predicted distance travelled is computed and this is used to estimate the future location of all cars
+
+### Lane Changing: 
+The lane changing algorithm logically implements a finite state machine. The algorithm keeps the car in its current lane and accelerate to maximum speed until there is an obstacle. For the algorithm, we set the state of the three lanes to either open or closed. A lane is considered closed if:
+a. The main car is currently on a lane i and the car infront of the main car on lane i is slower than the main car and less than 30 m near to the main car
+b. The main car is currently on a lane i and the cars on adjacent lanes (left or right) of i are expected to be less than 30 m near to the main car if in front of the main car and expected to be less than 10 m near the main car if the car is behind the main car.
+
+The FSM stays in the current lane, accelerating to maximum speed until meets an obstacle. Then it checks if the adjacent lanes are valid. If the car is on the leftmost lane, the lane to the left of this (facing oncoming traffic is set to invalid) and so for when the car is on the rightmost lane. This is implemented using a switch case statement. If the check shows an adjacent lane and the lane is open (as explained previously), the car moves to that lane and this new lane becomes the current lane and the process is repeated. However, if the check shows the adjacent lanes are valid but the lanes are closed, the main car reduces its speed. If the check shows both lanes are valid and both lanes are open, the car is programmed to choose the outer (right) lane on the road rather than the inner (left) lane.
+
+### Path Generation: 
+A spline library was used to generate the path. The library takes in a target x-value and generates the corresponding y-value. The full implementation of this was carried out using the Q and A video provided for the project
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).  
 
